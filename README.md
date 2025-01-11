@@ -38,9 +38,10 @@ V1.1:
 删除没有使用到的import re语句。优化文本内容。增加在终端也返回操作结果。修改listDisks的输出变量名，从output改为listDisksOutput。  
 TODO：想增加国际化多语言适配，下拉菜单选择多语言功能。lupdate？Qtranslator？还没定。  
 V1.2:  
-删除赘余方案二（QProcess）和三（终端先输入密码）。
+删除赘余方案二（QProcess）和三（终端先输入密码）。删除可执行程序（以精简仓库大小）
 
-以下为原项目介绍：
+**以下为原项目介绍：  
+Following are original README file:**
 
 ------------
 
