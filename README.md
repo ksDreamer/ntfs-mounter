@@ -1,39 +1,44 @@
 # NTFS Mounter 
 Author: Kevin Stark  
-Date: 2024/06/15  
-Version: 1.1  
+Date: 2025/1/11  
+Version: 1.2
+
+这个项目是基于[原项目](https://github.com/enlian/ntfs-for-mac)的一个fork。原项目没有交互界面，需要手动进入bash在命令行指定磁盘标识符，不灵活。为人机交互考虑，增加了用PyQt5写的GUI，能查看磁盘列表、指定磁盘标识符的功能。  
+This project is a folk from [enlian/nfts-for-mac](https://github.com/enlian/ntfs-for-mac). A GUI (made by PyQt5) is added for better Human-Computer Interaction.
 
 
-## 说明
-这个项目是基于[原项目](https://github.com/enlian/ntfs-for-mac)的一个fork。  
-* 原项目没有交互界面，为人机交互考虑，增加了用PyQt5写的GUI。  
-* 原项目需要手动进入bash，在命令行或文本编辑器里修改磁盘标识符，不灵活，于是增加了查看磁盘列表、输入磁盘标识符的功能。  
 
 ![GUI](image/gui.png)
-## 使用方法
-首先要把相关依赖和设置配好，
-1. `homebrew、macfuse、ntfs-3g-mac`，详情看下面正文
-2. 系统安全性设置，详情看下面正文
-3. Python包PyQt5 可以通过`pip install PyQt5`获得。  
+# Environment Setup 环境配置
+1. 安装homebrew：
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+2. 添加homebrew-fuse仓库，安装macfuse和nfts-3g-mac
+```
+brew tap gromgit/homebrew-fuse
+brew install --cask macfuse
+brew install ntfs-3g-mac
+```
+3. 关闭系统安全性设置
+- 3.1 “通用”中“隐私与安全性”，允许任何来源，可直接终端
+  `sudo spctl --master-disable`
+- 3.2 关闭SIP，输入 `csrutil disable` 重启
+- 3.3 关机后长按开机键，进入“恢复”环境，在“实用工具”->“启动安全性实用工具”降低安全性的选项全都都勾上（出现不能更改安全性设置，关机盒盖，30秒后再操作一遍即可）
+4. 安装Python包PyQt5： `pip install PyQt5` 
 
 
-
-GUI有三种使用方案。
-
-* 方案一：在终端运行`python3 ntfs_mounter.py`，在GUI里确认挂载后在终端输入计算机密码。
-* 方案二：用QProcess实现，和方案一效果没区别。
-* 方案三：在终端中运行`sudo python3 ntfs_mounter.py`，只需要一开始在终端输入密码就行，不用在程序运转时输入了。
-* 默认是方案一。如需修改请自行在`ntfs_mounter.py`的mountNTFSDisk内找到相关代码，注释和解除注释。  
-
-GUI路径：ntfs-mounter/ntfs_mounter.py  
-
-也用Pyinstaller创建了可执行程序，解压`dist.tar.gz`后进入路径，双击ntfs_mounter就可以用，不需要安装Python的PyQt5包。 
-
-可执行程序路径：ntfs-mounter/dist/ntfs_mounter/ntfs_mounter  
-
-
+# Usage 使用方法
+在终端运行`python3 ntfs_mounter.py`，在GUI里确认挂载后在终端输入计算机密码。 
 
 注意，一切使用前提是把相关依赖和设置配好。  
+
+# Developing Log 开发日志
+V1.1:   
+删除没有使用到的import re语句。优化文本内容。增加在终端也返回操作结果。修改listDisks的输出变量名，从output改为listDisksOutput。  
+TODO：想增加国际化多语言适配，下拉菜单选择多语言功能。lupdate？Qtranslator？还没定。  
+V1.2:  
+删除赘余方案二（QProcess）和三（终端先输入密码）。
 
 以下为原项目介绍：
 
